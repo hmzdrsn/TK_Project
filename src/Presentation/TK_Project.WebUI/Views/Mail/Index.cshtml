@@ -1,0 +1,25 @@
+﻿@model Mail
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUI.cshtml";
+}
+
+<form method="post">
+    <div class="card-body">
+        <div class="form-group mb-3">
+            <label for="simpleinput">Mail To</label>
+            <input type="text" asp-for="To" id="simpleinput" class="form-control">
+        </div>
+        <div class="form-group mb-3">
+            <label for="simpleinput">Subject</label>
+            <input type="text" asp-for="Subject" id="simpleinput" class="form-control">
+        </div>
+        <div class="form-group mb-3">
+            <label for="simpleinput">Message</label>
+            <textarea asp-for="Body" class="form-control" id="example-textarea" rows="4"></textarea>
+        </div>
+        <div class="form-group mb-3">
+            <button type="submit" class="btn btn-outline-success">Send Mail</button>
+        </div>
+    </div>
+</form>

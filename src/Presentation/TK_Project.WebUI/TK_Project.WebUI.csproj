@@ -1,0 +1,68 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\windmill-dashboard\**" />
+    <Content Remove="wwwroot\windmill-dashboard\**" />
+    <EmbeddedResource Remove="wwwroot\windmill-dashboard\**" />
+    <None Remove="wwwroot\windmill-dashboard\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\dark\.DS_Store" />
+    <None Include="wwwroot\dark\assets\images\logo.svg" />
+    <None Include="wwwroot\dark\assets\images\qrcode.svg" />
+    <None Include="wwwroot\dark\fonts\feather.svg" />
+    <None Include="wwwroot\dark\js\apexcharts.custom.js" />
+    <None Include="wwwroot\dark\js\apexcharts.min.js" />
+    <None Include="wwwroot\dark\js\apps.js" />
+    <None Include="wwwroot\dark\js\bootstrap-datepicker.min.js" />
+    <None Include="wwwroot\dark\js\bootstrap.min.js" />
+    <None Include="wwwroot\dark\js\Chart.min.js" />
+    <None Include="wwwroot\dark\js\config.js" />
+    <None Include="wwwroot\dark\js\d3.min.js" />
+    <None Include="wwwroot\dark\js\datamaps-zoomto.js" />
+    <None Include="wwwroot\dark\js\datamaps.all.min.js" />
+    <None Include="wwwroot\dark\js\datamaps.custom.js" />
+    <None Include="wwwroot\dark\js\dataTables.bootstrap4.min.js" />
+    <None Include="wwwroot\dark\js\daterangepicker.js" />
+    <None Include="wwwroot\dark\js\dropzone.min.js" />
+    <None Include="wwwroot\dark\js\fullcalendar.custom.js" />
+    <None Include="wwwroot\dark\js\fullcalendar.js" />
+    <None Include="wwwroot\dark\js\gauge.min.js" />
+    <None Include="wwwroot\dark\js\jquery.dataTables.min.js" />
+    <None Include="wwwroot\dark\js\jquery.mask.min.js" />
+    <None Include="wwwroot\dark\js\jquery.min.js" />
+    <None Include="wwwroot\dark\js\jquery.sparkline.min.js" />
+    <None Include="wwwroot\dark\js\jquery.steps.min.js" />
+    <None Include="wwwroot\dark\js\jquery.stickOnScroll.js" />
+    <None Include="wwwroot\dark\js\jquery.timepicker.js" />
+    <None Include="wwwroot\dark\js\jquery.validate.min.js" />
+    <None Include="wwwroot\dark\js\moment.min.js" />
+    <None Include="wwwroot\dark\js\perfect-scrollbar.min.js" />
+    <None Include="wwwroot\dark\js\popper.min.js" />
+    <None Include="wwwroot\dark\js\quill.min.js" />
+    <None Include="wwwroot\dark\js\select2.min.js" />
+    <None Include="wwwroot\dark\js\simplebar.min.js" />
+    <None Include="wwwroot\dark\js\tinycolor-min.js" />
+    <None Include="wwwroot\dark\js\topojson.min.js" />
+    <None Include="wwwroot\dark\js\uppy.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\TK_Project.Application\TK_Project.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\TK_Project.Infrastructure\TK_Project.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\TK_Project.Persistance\TK_Project.Persistance.csproj" />
+  </ItemGroup>
+
+</Project>

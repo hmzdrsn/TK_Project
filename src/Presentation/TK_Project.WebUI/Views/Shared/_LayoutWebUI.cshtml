@@ -1,0 +1,22 @@
+﻿<!doctype html>
+<html lang="en">
+<!-- header -->
+@await Html.PartialAsync("~/Views/LayoutWebUI/_HeaderPartial.cshtml")
+<body class="vertical  dark  ">
+    <div class="wrapper">
+        <!-- navbar ust kisim -->
+        @await Html.PartialAsync("~/Views/LayoutWebUI/_NavBarPartial.cshtml")
+
+        <!-- SIDE BAR-->
+        @await Html.PartialAsync("~/Views/LayoutWebUI/_SideBarPartial.cshtml")
+        <main role="main" class="main-content">
+            <!-- CONTENT -->
+            @RenderBody()
+            <!-- NOTIFICATION -->
+            @await Html.PartialAsync("~/Views/LayoutWebUI/_NotificationPartial.cshtml")
+        </main>
+    </div> <!-- .wrapper -->
+    <!-- scripts -->
+    @await Html.PartialAsync("~/Views/LayoutWebUI/_ScriptsPartial.cshtml")
+</body>
+</html>
