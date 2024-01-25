@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TK_Project.Application.Interfaces.Repositories.Role;
 using TK_Project.Application.Interfaces.Repositories.User;
 using TK_Project.Domain.Entities;
@@ -6,6 +7,7 @@ using TK_Project.WebUI.Models;
 
 namespace TK_Project.WebUI.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         readonly IUserReadRepository _userReadRepository;
@@ -19,8 +21,8 @@ namespace TK_Project.WebUI.Controllers
             _roleReadRepository = roleReadRepository;
             _roleWriteRepository = roleWriteRepository;
         }
-
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> UserList()
         {
             var data = await _userReadRepository.GetAllAsync();
             return View(data);
@@ -36,7 +38,7 @@ namespace TK_Project.WebUI.Controllers
         public async Task<IActionResult> UpdateUser(User user)
         {
             await _userWriteRepository.UpdateAsync(user);
-            return RedirectToAction("Index","User");
+            return RedirectToAction("UserList", "User");
         }
         [HttpGet]
         public async Task<IActionResult> AssignRole(int id)
@@ -79,14 +81,14 @@ namespace TK_Project.WebUI.Controllers
             }
             
             await _roleWriteRepository.AssignRole(userID, roles);
-            return RedirectToAction("Index","User");
+            return RedirectToAction("UserList", "User");
         }
 
 
         public async Task<IActionResult> DeleteUser(int id)
         {
             await _userWriteRepository.DeleteByIDAsync(id);
-            return RedirectToAction("Index", "User");
+            return RedirectToAction("UserList", "User");
         }
     }
 }

@@ -18,7 +18,7 @@ namespace TK_Project.Persistance.Repositories
             _context = context;
         }
 
-        private DbSet<T> Table { get => _context.Set<T>(); }
+        private DbSet<T> Table { get => _context.Set<T>();}
         public async Task<List<T>> GetAllAsync()
         {
             return await Table.ToListAsync();

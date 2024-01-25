@@ -1,0 +1,6 @@
+@TK_Project.Auth_HostAddress = http://localhost:5200
+
+GET {{TK_Project.Auth_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

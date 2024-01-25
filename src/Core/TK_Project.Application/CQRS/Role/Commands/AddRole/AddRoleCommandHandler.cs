@@ -23,7 +23,7 @@ namespace TK_Project.Application.CQRS.Role.Commands.AddRole
             {
                 Name = request.Name
             });
-            return new AddRoleCommandResponse() { Message="Rol Başarıyla Eklendi"};
+            return new AddRoleCommandResponse() { Message="Role Created"};
         }
     }
 }

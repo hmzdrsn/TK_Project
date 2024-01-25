@@ -22,7 +22,7 @@ namespace TK_Project.Application.CQRS.User.Commands.RemoveUser
             await _write.DeleteByIDAsync(request.UserID);
             return new()
             {
-                Message = "Müşteri Başarıyla Silindi"
+                Message = "User Removed"
             };
         }
     }

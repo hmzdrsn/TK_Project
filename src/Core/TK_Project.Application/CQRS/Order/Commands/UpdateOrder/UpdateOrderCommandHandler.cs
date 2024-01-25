@@ -12,23 +12,35 @@ namespace TK_Project.Application.CQRS.Order.Commands.UpdateOrder
     public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommandRequest, UpdateOrderCommandResponse>
     {
         readonly IOrderWriteRepository _write;
-        public UpdateOrderCommandHandler(IOrderWriteRepository write)
+        readonly IOrderReadRepository _read;
+        public UpdateOrderCommandHandler(IOrderWriteRepository write, IOrderReadRepository read)
         {
             _write = write;
+            _read = read;
         }
 
         public async Task<UpdateOrderCommandResponse> Handle(UpdateOrderCommandRequest request, CancellationToken cancellationToken)
         {
-            await _write.UpdateAsync(new Domain.Entities.Order()
+            var order = await _read.GetByIdAsync(request.OrderID);
+            if(order == null)
             {
-                Id = request.OrderID,
-                Date = request.Date,
-                Payment_Status = request.Payment_Status,
-            });
-            return new UpdateOrderCommandResponse()
+                return new UpdateOrderCommandResponse()
+                {
+                    Message = "No Data"
+                };
+            }
+            else
             {
-                Message = "Sipariş Bilgileri Güncellendi"
-            };
+                order.Date = request.Date;
+                order.Payment_Status = request.Payment_Status;
+                await _write.UpdateAsync(order);
+                return new UpdateOrderCommandResponse()
+                {
+                    Message = "Order Updated"
+                };
+            }
+            
+            
         }
     }
 }

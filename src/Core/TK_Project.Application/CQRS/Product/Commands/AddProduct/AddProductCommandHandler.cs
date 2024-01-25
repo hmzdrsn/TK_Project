@@ -24,6 +24,7 @@ namespace TK_Project.Application.CQRS.Product.Commands.AddProduct
         {
             var category = await _readCategory.GetByIdAsync(request.CategoryID);
 
+
             await _write.AddAsync(new Domain.Entities.Product()
             {
                 Name = request.Name,
@@ -31,10 +32,10 @@ namespace TK_Project.Application.CQRS.Product.Commands.AddProduct
                 Price = request.Price,
                 Stock = request.Stock,
                 Category = category,
-                Status = true,
+                Status = request.Status,
             });
 
-            return new AddProductCommandResponse() { Message = "Ürün Başarıyla Eklendi" };
+            return new AddProductCommandResponse() { Message = "Product Created" };
         }
     }
 }

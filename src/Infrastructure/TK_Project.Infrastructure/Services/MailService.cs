@@ -1,10 +1,10 @@
 ﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Configuration;
 using MimeKit;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Channels;
 using TK_Project.Application.Interfaces.Services;
 using TK_Project.Domain.Entities;
 
@@ -12,12 +12,19 @@ namespace TK_Project.Infrastructure.Services
 {
     public class MailService : IMailService
     {
+        readonly IConfiguration _configuration;
+
+        public MailService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public async Task SendMail(Mail mailModel)
         {
             var mailPassenger = new MimeMessage();
             
             //mail adresi girisleri
-            MailboxAddress mailFrom = new MailboxAddress("Service Provider", "testtraversaltesttraversal@gmail.com");
+            MailboxAddress mailFrom = new MailboxAddress(_configuration["MailSettings:SenderName"], _configuration["MailSettings:SenderAddress"]);
             MailboxAddress mailTo = new MailboxAddress("Consumer", mailModel.To);
             mailPassenger.From.Add(mailFrom);
             mailPassenger.To.Add(mailTo);
@@ -29,7 +36,7 @@ namespace TK_Project.Infrastructure.Services
             //smtp client
             SmtpClient client = new SmtpClient();
             await client.ConnectAsync("smtp.gmail.com", 587, false);
-            await client.AuthenticateAsync("testtraversaltesttraversal@gmail.com", "kecw lzqd ddoo wnsm");
+            await client.AuthenticateAsync(_configuration["MailSettings:SenderAddress"], _configuration["MailSettings:GoogleKey"]);
             await client.SendAsync(mailPassenger);
             //error
             await client.DisconnectAsync(true);
@@ -39,9 +46,9 @@ namespace TK_Project.Infrastructure.Services
         {
             var connectionFactory = new ConnectionFactory()
             {
-                HostName = "localhost",
-                UserName = "guest",
-                Password = "guest",
+                HostName = _configuration["connectionStrings:RabbitMQ:hostname"],
+                UserName = _configuration["connectionStrings:RabbitMQ:username"],
+                Password = _configuration["connectionStrings:RabbitMQ:password"]
             };
 
             using (var connection = connectionFactory.CreateConnection())
@@ -53,7 +60,7 @@ namespace TK_Project.Infrastructure.Services
                                      autoDelete: false,
                                      arguments: null);
 
-                var mailMessage = new Mail() {To = mailModel.To, From = mailModel.From , Body = mailModel.Body, Subject = mailModel.Subject};
+                var mailMessage = new Mail() {To = mailModel.To, Body = mailModel.Body, Subject = mailModel.Subject};
 
                 string mailMessageJson = JsonSerializer.Serialize(mailMessage);
 
@@ -73,9 +80,9 @@ namespace TK_Project.Infrastructure.Services
             string response ="bos";
             var factory = new ConnectionFactory()
             {
-                HostName = "localhost",
-                UserName = "guest",
-                Password = "guest",
+                HostName = _configuration["connectionStrings:RabbitMQ:hostname"],
+                UserName = _configuration["connectionStrings:RabbitMQ:username"],
+                Password = _configuration["connectionStrings:RabbitMQ:password"]
             };
 
             using (IConnection connection = factory.CreateConnection())

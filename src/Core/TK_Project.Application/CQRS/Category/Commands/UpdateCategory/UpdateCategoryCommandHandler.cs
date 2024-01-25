@@ -6,25 +6,34 @@ namespace TK_Project.Application.CQRS.Category.Commands.UpdateCategory
     public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommandRequest, UpdateCategoryCommandResponse>
     {
         readonly ICategoryWriteRepository _write;
+        readonly ICategoryReadRepository _read;
 
-        public UpdateCategoryCommandHandler(ICategoryWriteRepository write)
+        public UpdateCategoryCommandHandler(ICategoryWriteRepository write, ICategoryReadRepository read)
         {
             _write = write;
+            _read = read;
         }
 
         public async Task<UpdateCategoryCommandResponse> Handle(UpdateCategoryCommandRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entities.Category category = new()
+
+            var category = await _read.GetByIdAsync(request.ID);
+            if(category == null)
             {
-                Id = request.ID,
-                Name = request.Name
-            };
-            await _write.UpdateAsync(category);
-            return new UpdateCategoryCommandResponse()
+                return new UpdateCategoryCommandResponse()
+                {
+                    Message = "No Data",
+                };
+            }
+            else
             {
-                Message = "Kategori Başarıyla Güncellendi",
-                UpdatedName = request.Name
-            };
+                category.Name = request.Name;
+                await _write.UpdateAsync(category);
+                return new UpdateCategoryCommandResponse()
+                {
+                    Message = "Category Updated",
+                };
+            }
         }
     }
 }

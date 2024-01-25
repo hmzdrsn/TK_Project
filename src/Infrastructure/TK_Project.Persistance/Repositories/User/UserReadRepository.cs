@@ -29,9 +29,9 @@ namespace TK_Project.Persistance.Repositories.Customer
             return data;
         }
 
-        public async Task<Domain.Entities.User> GetUserByName(string name)
+        public async Task<Domain.Entities.User> GetUserByUsername(string name)
         {
-            var data = await _context.Users.Include(r=>r.Roles).ThenInclude(c=>c.Capabilities).Where(x => x.Username == name).FirstOrDefaultAsync();
+            var data = await _context.Users.Include(r=>r.Roles).Where(x => x.Username == name).FirstOrDefaultAsync();
             return data;
         }
     }

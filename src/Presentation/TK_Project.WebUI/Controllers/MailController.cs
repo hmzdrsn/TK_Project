@@ -4,7 +4,7 @@ using TK_Project.Application.Interfaces.Services;
 
 namespace TK_Project.WebUI.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class MailController : Controller
     {
         readonly IMailService _mailService;

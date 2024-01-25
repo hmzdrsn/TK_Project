@@ -21,7 +21,7 @@ namespace TK_Project.Application.CQRS.Role.Commands.RemoveRole
         {
             await _write.DeleteByIDAsync(request.RoleID);
             
-            return new RemoveRoleCommandResponse() { Message="Rol Başarıyla Silindi"};
+            return new RemoveRoleCommandResponse() { Message="Role Removed"};
         }
     }
 }

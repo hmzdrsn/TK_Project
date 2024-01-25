@@ -23,7 +23,7 @@ namespace TK_Project.Application.CQRS.Product.Commands.RemoveProduct
             await _write.DeleteByIDAsync(request.ProductID);
             return new RemoveProductCommandResponse()
             {
-                Message = "Ürün Başarıyla Silindi"
+                Message = "Product Removed"
             };
         }
     }

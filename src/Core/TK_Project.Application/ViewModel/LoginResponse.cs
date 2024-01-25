@@ -11,5 +11,6 @@ namespace TK_Project.Application.ViewModel
         public bool AuthenticateResult { get; set; }
         public string AuthToken { get; set; }
         public DateTime? AccessTokenExpireDate { get; set; }
+        public string? State { get; set; }
     }
 }

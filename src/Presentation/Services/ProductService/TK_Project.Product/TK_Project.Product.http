@@ -1,0 +1,6 @@
+@TK_Project.Product_HostAddress = http://localhost:5138
+
+GET {{TK_Project.Product_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -17,25 +17,10 @@ namespace TK_Project.Persistance.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CapabilityRole", b =>
-                {
-                    b.Property<int>("CapabilitiesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RolesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CapabilitiesId", "RolesId");
-
-                    b.HasIndex("RolesId");
-
-                    b.ToTable("CapabilityRole");
-                });
 
             modelBuilder.Entity("OrderProduct", b =>
                 {
@@ -65,23 +50,6 @@ namespace TK_Project.Persistance.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("RoleUser");
-                });
-
-            modelBuilder.Entity("TK_Project.Domain.Entities.Capability", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Capabilities");
                 });
 
             modelBuilder.Entity("TK_Project.Domain.Entities.Category", b =>
@@ -191,6 +159,9 @@ namespace TK_Project.Persistance.Migrations
                     b.Property<string>("First_Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Last_Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -209,21 +180,6 @@ namespace TK_Project.Persistance.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("CapabilityRole", b =>
-                {
-                    b.HasOne("TK_Project.Domain.Entities.Capability", null)
-                        .WithMany()
-                        .HasForeignKey("CapabilitiesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TK_Project.Domain.Entities.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("OrderProduct", b =>

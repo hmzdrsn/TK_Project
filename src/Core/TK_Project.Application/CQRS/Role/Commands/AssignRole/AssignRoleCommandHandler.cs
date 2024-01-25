@@ -23,7 +23,7 @@ namespace TK_Project.Application.CQRS.Role.Commands.AssignRole
             await _write.AssignRole(request.userID,request.roleIdList);
             return new AssignRoleCommandResponse()
             {
-                Message= "Rol Atandı"
+                Message= "Role Assigned"
             };
         }
     }

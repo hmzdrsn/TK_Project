@@ -1,30 +1,27 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using TK_Project.Application.Interfaces.Repositories.Product;
+using TK_Project.Domain.Entities;
+using TK_Project.WebUI.Extensions;
 
 namespace TK_Project.WebUI.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         readonly IProductReadRepository _read;
         readonly IProductWriteRepository _productWriteRepository;
-        public ProductController(IProductReadRepository read, IProductWriteRepository productWriteRepository)
+        readonly IValidator<Product> _validator;
+        public ProductController(IProductReadRepository read, IProductWriteRepository productWriteRepository, IValidator<Product> validator)
         {
             _read = read;
             _productWriteRepository = productWriteRepository;
+            _validator = validator;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
-        {
-
-            var data = await _read.GetAllAsync();
-            return View(data);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> ProductDetails()
+        public async Task<IActionResult> ProductList()
         {
             var data = await _read.GetAllAsync();
             return View(data);
@@ -37,10 +34,18 @@ namespace TK_Project.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProduct(Domain.Entities.Product product)
+        public async Task<IActionResult> AddProduct(Product product)
         {
-            await _productWriteRepository.AddAsync(product);
-            return RedirectToAction("ProductDetails","Product");
+            var result = await _validator.ValidateAsync(product);
+
+            if (result.IsValid)
+            {
+                await _productWriteRepository.AddAsync(product);
+                return RedirectToAction("ProductList", "Product");
+            }
+            
+            result.AddToModelState(this.ModelState);
+            return View(product);
         }
 
 
@@ -55,14 +60,14 @@ namespace TK_Project.WebUI.Controllers
         public async Task<IActionResult> UpdateProduct(Domain.Entities.Product product)
         {
             await _productWriteRepository.UpdateAsync(product);
-            return RedirectToAction("ProductDetails", "Product");
+            return RedirectToAction("ProductList", "Product");
         }
 
 
         public async Task<IActionResult> DeleteProduct(int id)
         {
             await _productWriteRepository.DeleteByIDAsync(id);
-            return RedirectToAction("ProductDetails", "Product");
+            return RedirectToAction("ProductList", "Product");
         }
 
     }

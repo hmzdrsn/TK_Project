@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TK_Project.Application.Interfaces.Repositories.Role;
 
 namespace TK_Project.WebUI.Controllers
 {
+    [Authorize]
     public class RoleController : Controller
     {
         readonly IRoleReadRepository _roleReadRepository;
@@ -13,7 +15,7 @@ namespace TK_Project.WebUI.Controllers
             _roleWriteRepository = roleWriteRepository;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> RoleList()
         {
             var data = await _roleReadRepository.GetAllAsync();
             return View(data);
@@ -28,7 +30,7 @@ namespace TK_Project.WebUI.Controllers
         public async Task<IActionResult> AddRole(Domain.Entities.Role role)
         {
             await _roleWriteRepository.AddAsync(role);
-            return RedirectToAction("Index", "Role");
+            return RedirectToAction("RoleList", "Role");
         }
 
         [HttpGet]
@@ -42,13 +44,13 @@ namespace TK_Project.WebUI.Controllers
         public async Task<IActionResult> UpdateRole(Domain.Entities.Role role)
         {
             await _roleWriteRepository.UpdateAsync(role);
-            return RedirectToAction("Index", "Role");
+            return RedirectToAction("RoleList", "Role");
         }
 
         public async Task<IActionResult> DeleteRole(int id)
         {
             await _roleWriteRepository.DeleteByIDAsync(id);
-            return RedirectToAction("Index", "Role");
+            return RedirectToAction("RoleList", "Role");
         }
     }
 }

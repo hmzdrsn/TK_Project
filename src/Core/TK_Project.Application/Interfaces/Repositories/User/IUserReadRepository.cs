@@ -10,6 +10,6 @@ namespace TK_Project.Application.Interfaces.Repositories.User
     {
         Task<List<Domain.Entities.User>> GetUserWithOrderIds();
         Task<List<Domain.Entities.User>> GetUserWithOrderById(int id);
-        Task<Domain.Entities.User> GetUserByName(string name);
+        Task<Domain.Entities.User> GetUserByUsername(string name);
     }
 }

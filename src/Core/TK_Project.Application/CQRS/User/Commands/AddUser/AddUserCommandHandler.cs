@@ -27,7 +27,7 @@ namespace TK_Project.Application.CQRS.User.Commands.AddUser
 
             return new AddUserCommandResponse()
             {
-                Message = "Müşteri Başarıyla Eklendi"
+                Message = "User Created"
             };
 
         }

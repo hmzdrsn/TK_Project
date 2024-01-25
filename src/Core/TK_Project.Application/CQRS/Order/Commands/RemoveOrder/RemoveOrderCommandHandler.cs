@@ -19,7 +19,7 @@ namespace TK_Project.Application.CQRS.Order.Commands.RemoveOrder
         {
             await _write.DeleteByIDAsync(request.OrderID);
 
-            return new RemoveOrderCommandResponse() { Message = "Sipariş Silindi" };
+            return new RemoveOrderCommandResponse() { Message = "Order Removed" };
         }
 
     }

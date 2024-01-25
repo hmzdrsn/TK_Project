@@ -10,6 +10,5 @@ namespace TK_Project.Application.CQRS.Category.Commands.UpdateCategory
     public class UpdateCategoryCommandResponse
     {
         public string Message { get; set; }
-        public string UpdatedName { get; set; }
     }
 }

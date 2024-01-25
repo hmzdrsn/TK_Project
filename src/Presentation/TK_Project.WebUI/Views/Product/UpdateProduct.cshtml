@@ -4,23 +4,28 @@
     Layout = "~/Views/Shared/_LayoutWebUI.cshtml";
 }
 <form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
     <div class="card-body">
         <div class="form-group mb-3">
             <input type="hidden" asp-for="Id" />
             <label for="simpleinput">Name</label>
             <input type="text" asp-for="Name" id="simpleinput" class="form-control">
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <div class="form-group mb-3">
             <label for="simpleinput">Description</label>
             <textarea asp-for="Description" class="form-control" id="example-textarea" rows="4"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="form-group mb-3">
             <label for="simpleinput">Price</label>
             <input type="text" asp-for="Price" id="simpleinput" class="form-control">
+            <span asp-validation-for="Price" class="text-danger"></span>
         </div>
         <div class="form-group mb-3">
             <label for="simpleinput">Stock</label>
             <input type="text" asp-for="Stock" id="simpleinput" class="form-control">
+            <span asp-validation-for="Stock" class="text-danger"></span>
         </div>
         <div class="form-group mb-3">
             <label for="simpleinput">Status</label><br />
@@ -32,15 +37,17 @@
                 <input class="form-check-input" asp-for="Status" type="radio" value="false">
                 <label class="form-check-label" for="inlineRadio2">False</label>
             </div>
+            <span asp-validation-for="Status" class="text-danger"></span>
         </div>
         <div class="form-group mb-3">
             <label for="simpleinput">Category Id</label>
             <input type="text" asp-for="CategoryId" id="simpleinput" class="form-control">
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
 
         <div class="form-group mb-3">
             <button type="submit" class="btn btn-outline-success">Save</button>
-            <a href="/Product/Index/" class="btn btn-outline-info">Back</a>
+            <a href="/Product/ProductList/" class="btn btn-outline-info">Back</a>
         </div>
     </div>
 </form>

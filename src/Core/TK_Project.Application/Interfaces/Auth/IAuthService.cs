@@ -10,5 +10,6 @@ namespace TK_Project.Application.Interfaces.Auth
     public interface IAuthService
     {
         public Task<LoginResponse> LoginAsync(LoginRequest loginRequest);
+        public Task RegisterAsync(RegisterVM registerVM);
     }
 }

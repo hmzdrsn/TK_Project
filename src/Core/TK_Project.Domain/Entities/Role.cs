@@ -10,7 +10,6 @@ namespace TK_Project.Domain.Entities
     {
         
         public string Name { get; set; }
-        public List<Capability>? Capabilities { get; set; }
         public List<User>? Users { get; set; }
 
     }

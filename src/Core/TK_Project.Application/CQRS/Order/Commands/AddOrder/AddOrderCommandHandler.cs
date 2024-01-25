@@ -27,24 +27,38 @@ namespace TK_Project.Application.CQRS.Order.Commands.AddOrder
             decimal total = 0;
             //var listPrice = await _readProduct.GetProductPriceListByOrderIdList(request.ListProductID);
             var productList = await _readProduct.GetProductsOfOrder(request.ListProductID);
-
-
-            foreach (var item in productList)
+            if(productList != null)
             {
-                total += (decimal)item.Price;
+                foreach (var item in productList)
+                {
+                    total += (decimal)item.Price;
+                }
             }
-            var user = await _readUser.GetByIdAsync(request.UserID);
-
-
-            await _write.AddAsync(new Domain.Entities.Order()
+            else
             {
-                Date = request.Date,
-                Payment_Status = request.Payment_Status,
-                User = user,
-                Amount = total,
-                Products = productList,
-            });
-            return new AddOrderCommandResponse() { Message = "Sipariş Başarıyla Oluşturuldu" };
+                return new AddOrderCommandResponse() { Message = "empty basket" };
+            }
+            
+            var user = await _readUser.GetByIdAsync(request.UserID);
+            if(user == null)
+            {
+                return new()
+                {
+                    Message = "no user"
+                };
+            }
+            else
+            {
+                await _write.AddAsync(new Domain.Entities.Order()
+                {
+                    Date = request.Date,
+                    Payment_Status = request.Payment_Status,
+                    User = user,
+                    Amount = total,
+                    Products = productList,
+                });
+                return new AddOrderCommandResponse() { Message = "Order Created" };
+            }
         }
     }
 }

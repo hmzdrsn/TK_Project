@@ -11,23 +11,35 @@ namespace TK_Project.Application.CQRS.Role.Commands.UpdateRole
     public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommandRequest, UpdateRoleCommandResponse>
     {
         readonly IRoleWriteRepository _write;
+        readonly IRoleReadRepository _read;
 
-        public UpdateRoleCommandHandler(IRoleWriteRepository write)
+        public UpdateRoleCommandHandler(IRoleWriteRepository write, IRoleReadRepository read)
         {
             _write = write;
+            _read = read;
         }
 
         public async Task<UpdateRoleCommandResponse> Handle(UpdateRoleCommandRequest request, CancellationToken cancellationToken)
         {
-            await _write.UpdateAsync(new Domain.Entities.Role()
+            var role = await _read.GetByIdAsync(request.RoleID);
+            if(role == null)
             {
-                Id = request.RoleID,
-                Name = request.RoleName
-            });
-            return new UpdateRoleCommandResponse()
+                return new UpdateRoleCommandResponse()
+                {
+                    Message = "No Data"
+                };
+            }
+            else
             {
-                Message = "Rol Başarıyla Güncellendi"
-            };
+                role.Name = request.RoleName;
+                await _write.UpdateAsync(role);
+                return new UpdateRoleCommandResponse()
+                {
+                    Message = "Role Updated"
+                };
+            }
+            
+            
         }
     }
 }

@@ -12,31 +12,43 @@ namespace TK_Project.Application.CQRS.Product.Commands.UpdateProduct
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommandRequest, UpdateProductCommandResponse>
     {
         readonly IProductWriteRepository _write;
-        readonly ICategoryReadRepository _read;
-        public UpdateProductCommandHandler(IProductWriteRepository write, ICategoryReadRepository read)
+        readonly IProductReadRepository _productRead;
+        readonly ICategoryReadRepository _readCategory;
+        public UpdateProductCommandHandler(IProductWriteRepository write, ICategoryReadRepository read, IProductReadRepository productRead)
         {
             _write = write;
-            _read = read;
+            _readCategory = read;
+            _productRead = productRead;
         }
 
         public async Task<UpdateProductCommandResponse> Handle(UpdateProductCommandRequest request, CancellationToken cancellationToken)
         {
-            var data = await _read.GetByIdAsync(request.CategoryID);
+            var data = await _readCategory.GetByIdAsync(request.CategoryID);
+            var product = await _productRead.GetByIdAsync(request.ProductID);
 
-            await _write.UpdateAsync(new Domain.Entities.Product()
+            if (product == null)
             {
-                Id = request.ProductID,
-                Name = request.Name,
-                Description = request.Description,
-                Price = request.Price,
-                Stock = request.Stock,
-                Status = request.Status,
-                Category = data,
-            });
-            return new UpdateProductCommandResponse()
+                return new UpdateProductCommandResponse()
+                {
+                    Message = "No Data"
+                };
+            }
+            else
             {
-                Message = "Ürün Başarıyla Güncellendi"
-            };
+                product.Name = request.Name;
+                product.Description = request.Description;
+                product.Price = request.Price;
+                product.Stock = request.Stock;
+                product.Status = request.Status;
+                product.Category = data;
+                await _write.UpdateAsync(product);
+                return new UpdateProductCommandResponse()
+                {
+                    Message = "Product Updated"
+                };
+            }
+            
+            
         }
     }
 }

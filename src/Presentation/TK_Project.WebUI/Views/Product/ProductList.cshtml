@@ -1,0 +1,84 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUI.cshtml";
+}
+
+
+@await Html.PartialAsync("~/Views/LayoutDataTable/_HeaderPartial.cshtml")
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            
+            <p class="card-text"></p>
+            <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <h2 class="mb-2 page-title">Product List</h2>
+                            <!-- table -->
+                            <table class="table datatables" id="dataTable-1">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>CategoryID</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Id</td>
+                                            <td>@item.Name</td>
+                                            <td>@item.CategoryId</td>
+                                            <td>@item.Price</td>
+                                            <td>@item.Stock</td>
+                                            <td><span class="badge badge-pill badge-warning">@item.Status</span></td>
+                                            <td>
+                                                @if (User.Claims.Any(x => x.Value == "Admin"))
+                                                {
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-sm dropdown-toggle" type="button" id="dr1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <span class="text-muted sr-only">Action</span>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dr1">
+                                                            <a class="dropdown-item" href="/Product/UpdateProduct/@item.Id">Edit</a>
+                                                            <a href="/Product/DeleteProduct/@item.Id" class="dropdown-item">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                }else
+                                                {
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm dropdown-toggle" type="button" id="dr1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <span class="text-muted sr-only">Action</span>
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dr1">
+                                                        <a class="dropdown-item" href="#">Yetkiniz Bulunmamaktadır</a>
+                                                    </div>
+
+                                                </div>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            @if (User.Claims.Any(x => x.Value == "Admin"))
+                            {
+                                <a class="btn btn-outline-success" href="/Product/AddProduct">Add Product</a>
+                            }
+                        </div>
+                    </div>
+                </div> <!-- simple table -->
+            </div> <!-- end section -->
+        </div>
+
+    </div>
+</div>
+@await Html.PartialAsync("~/Views/LayoutDataTable/_ScriptsPartial.cshtml")
