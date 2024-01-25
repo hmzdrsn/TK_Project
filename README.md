@@ -4,4 +4,4 @@
 | Type | Endpoint     |
 | :-------- | :------- |
 | `POST`      | `/api/Auth/Login` |
-| `POST`      | `/api/Auth/Registe` |
+| `POST`      | `/api/Auth/Register` |
