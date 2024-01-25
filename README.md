@@ -3,5 +3,5 @@
 
 | Type | Endpoint           |
 |------|--------------------|
-| post | /api/Auth/Login    |
-| post | /api/Auth/Register |
+| `post` | `/api/Auth/Login`    |
+| `post` | `/api/Auth/Register` |
